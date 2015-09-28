@@ -10,6 +10,8 @@ import android.webkit.WebView;
 
 public class BlogWebViewActivity extends AppCompatActivity {
 
+    protected String mUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,10 +20,11 @@ public class BlogWebViewActivity extends AppCompatActivity {
         // get parent intent
         Intent intent = getIntent();
         Uri blogUri = intent.getData();
+        mUrl = blogUri.toString();
 
         // load URL
         WebView webView = (WebView)findViewById(R.id.webView);
-        webView.loadUrl(blogUri.toString());
+        webView.loadUrl(mUrl);
 
 
     }
@@ -41,10 +44,19 @@ public class BlogWebViewActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_share) {
+            sharePost();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sharePost() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        // Set MIME Type and put URL data
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mUrl);
+        // create app chooser to share data with
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_chooser_title)));
     }
 }
