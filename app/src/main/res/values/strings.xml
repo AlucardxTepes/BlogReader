@@ -23,4 +23,5 @@
 
     <string name="error_title">Error</string>
     <string name="error_message">There was an error getting data from the blog.</string>
+    <string name="title_activity_blog_web_view">Blog Post</string>
 </resources>
